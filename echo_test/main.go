@@ -14,6 +14,7 @@ func handler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	fmt.Println(string(dump))
+	fmt.Println(r.URL.Query())
 	fmt.Fprintf(w, "<html><body>hello</body></html>\n")
 }
 
