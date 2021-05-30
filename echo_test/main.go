@@ -5,6 +5,7 @@ import (
 	"log"
 	"net/http"
 	"net/http/httputil"
+	"time"
 )
 
 func handler(w http.ResponseWriter, r *http.Request) {
@@ -28,10 +29,18 @@ func handlerCookie(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
+func handlerSlowPage(w http.ResponseWriter, r *http.Request) {
+	fmt.Println("-----------")
+	fmt.Println("wait 2sec")
+	time.Sleep(2 * time.Second)
+	fmt.Fprintf(w, "<html><body>hello</body></html>\n")
+}
+
 func main() {
 	var httpServer http.Server
 	http.HandleFunc("/", handler)
 	http.HandleFunc("/cookie", handlerCookie)
+	http.HandleFunc("/slow_page", handlerSlowPage)
 	log.Println("start http listening :18888")
 	httpServer.Addr = ":18888"
 	log.Println(httpServer.ListenAndServe())
